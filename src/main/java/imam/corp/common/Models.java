@@ -4,12 +4,14 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.*;
 
+@Slf4j
 public class Models<T> {
 
     public Specification<T> where(Map<String, Object> request) {
@@ -20,13 +22,13 @@ public class Models<T> {
         return new Specification<>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-
                 List<Predicate> predicates = new ArrayList<>();
 
                 for (var data : filter.entrySet()) {
                     if (Objects.nonNull(data)) {
+//                        log.info("data type: {}", data.getValue());
                         predicates.add(criteriaBuilder.or(
-                                criteriaBuilder.like(root.get(data.getKey()), "%" + data.getValue() + "%")
+                                criteriaBuilder.like(root.get(data.getKey()).as(String.class), "%" + data.getValue() + "%")
                         ));
                     }
                 }

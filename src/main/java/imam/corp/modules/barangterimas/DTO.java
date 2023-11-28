@@ -62,12 +62,12 @@ public class DTO {
     public static respBarangTerima toRespBarangTerima(BarangTerimaEntity entity){
         return respBarangTerima.builder()
                 .id(entity.getId())
-                .no(entity.getField().getNo())
-                .tanggal(entity.getField().getTanggal())
+                .no(entity.getNo())
+                .tanggal(entity.getTanggal())
                 .noNPP(entity.getNoNPP())
-                .namaBarang(entity.getField().getNamaBarang())
-                .keterangan(entity.getField().getKeterangan())
-                .kapal(entity.getField().getKapal())
+                .namaBarang(entity.getNamaBarang())
+                .keterangan(entity.getKeterangan())
+                .kapal(entity.getKapal())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();

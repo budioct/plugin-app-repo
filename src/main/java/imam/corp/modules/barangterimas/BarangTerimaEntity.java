@@ -1,6 +1,5 @@
 package imam.corp.modules.barangterimas;
 
-import imam.corp.modules.BoilerPlater;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,10 +22,18 @@ public class BarangTerimaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Embedded
-    private BoilerPlater field;
+    @Column(name = "no")
+    private Long no;
+    @Column(name = "tanggal")
+    private LocalDateTime tanggal;
     @Column(name = "no_npp")
     private String noNPP;
+    @Column(name = "nama_barang")
+    private String namaBarang;
+    @Column(name = "keterangan")
+    private String keterangan;
+    @Column(name = "kapal")
+    private String kapal;
     @CreatedDate
     @Column(name = "create_at", updatable = false)
     private LocalDateTime createdAt;

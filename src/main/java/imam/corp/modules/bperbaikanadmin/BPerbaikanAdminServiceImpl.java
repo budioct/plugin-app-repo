@@ -3,6 +3,7 @@ package imam.corp.modules.bperbaikanadmin;
 import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
 import imam.corp.config.validation.ValidationService;
+import imam.corp.utilities.AutoGenerateNo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,6 +28,9 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     @Autowired
     MapperToEntity mapper;
 
+    @Autowired
+    AutoGenerateNo generateNo;
+
     @Transactional(readOnly = true)
     public Page<DTO.respBPerbaikanAdmin> fetch(Map<String, Object> filter) {
         Models<BPerbaikanAdmin> models = new Models<>();
@@ -48,7 +52,7 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     public DTO.respBPerbaikanAdmin create(DTO.reqstBPerbaikanAdmin request) {
         validation.validate(request);
         BPerbaikanAdmin bpAdmin = new BPerbaikanAdmin();
-        bpAdmin.setNo(1L);
+        bpAdmin.setNo(generateNo.bPAdminNO());
         bpAdmin.setNamaBarang(request.getNamaBarang());
         bpAdmin.setTanggal(LocalDateTime.now());
         bpAdmin.setBengkelToko(request.getBengkelToko());

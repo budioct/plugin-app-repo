@@ -2,8 +2,8 @@ package imam.corp.modules.barangterimas;
 
 import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
-import imam.corp.modules.BoilerPlater;
 import imam.corp.config.validation.ValidationService;
+import imam.corp.utilities.AutoGenerateNo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,6 +28,9 @@ public class BarangTerimaServiceImpl implements BarangTerimaService {
     @Autowired
     MapperToEntity mapper;
 
+    @Autowired
+    AutoGenerateNo generateNo;
+
     @Transactional(readOnly = true)
     public Page<DTO.respBarangTerima> fetchAll(Map<String, Object> filter) {
         Models<BarangTerimaEntity> models = new Models<>();
@@ -40,15 +43,13 @@ public class BarangTerimaServiceImpl implements BarangTerimaService {
     @Transactional
     public DTO.respBarangTerima create(DTO.reqstBarangTerima request) {
         validation.validate(request);
-        BoilerPlater barangExtends = new BoilerPlater();
-        barangExtends.setNamaBarang(request.getNamaBarang());
-        barangExtends.setNo(1L); // semi otomasit
-        barangExtends.setKapal(request.getKapal());
-        barangExtends.setTanggal(LocalDateTime.now()); // semi otomatis
-        barangExtends.setKeterangan(request.getKeterangan());
         BarangTerimaEntity barang = new BarangTerimaEntity();
+        barang.setNo(generateNo.bTerimaNO());
+        barang.setTanggal(LocalDateTime.now());
         barang.setNoNPP(request.getNoNPP());
-        barang.setField(barangExtends);
+        barang.setNamaBarang(request.getNamaBarang());
+        barang.setKeterangan(request.getKeterangan());
+        barang.setKapal(request.getKapal());
         repository.save(barang);
 
         return DTO.toRespBarangTerima(barang);

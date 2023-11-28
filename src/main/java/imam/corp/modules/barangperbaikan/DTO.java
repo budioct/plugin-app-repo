@@ -32,7 +32,6 @@ public class DTO {
     @NoArgsConstructor
     @Builder
     public static class reqstBarangPerbaikan{
-        private Long id;
         private Long no;
         private LocalDateTime tanggal;
         @NotBlank
@@ -63,12 +62,12 @@ public class DTO {
     public static respBarangPerbaikan toRespBarangPerbaikan(BarangPerbaikanEntity entity){
         return respBarangPerbaikan.builder()
                 .id(entity.getId())
-                .no(entity.getField().getNo())
-                .tanggal(entity.getField().getTanggal())
+                .no(entity.getNo())
+                .tanggal(entity.getTanggal())
                 .noNPK(entity.getNoNPK())
-                .namaBarang(entity.getField().getNamaBarang())
-                .keterangan(entity.getField().getKeterangan())
-                .kapal(entity.getField().getKapal())
+                .namaBarang(entity.getNamaBarang())
+                .keterangan(entity.getKeterangan())
+                .kapal(entity.getKapal())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();

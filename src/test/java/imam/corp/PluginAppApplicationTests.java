@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.random.RandomGenerator;
+
 @SpringBootTest
 class PluginAppApplicationTests {
 
@@ -29,6 +31,13 @@ class PluginAppApplicationTests {
 
         entityManager.close();
         entityManagerFactory.close();
+
+    }
+
+    @Test
+    void testbro(){
+
+        System.out.println(RandomGenerator.getDefault().nextLong());
 
     }
 

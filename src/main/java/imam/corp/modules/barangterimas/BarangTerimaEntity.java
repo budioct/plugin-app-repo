@@ -2,6 +2,8 @@ package imam.corp.modules.barangterimas;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 @EntityListeners({AuditingEntityListener.class})
 @Entity
 @Table(name = "barang_terimas")
+@SQLDelete(sql = "update barang_terimas set delete_at= '1' where id= ?")
+@Where(clause = "delete_at= '0'")
 public class BarangTerimaEntity {
 
     @Id
@@ -40,5 +44,7 @@ public class BarangTerimaEntity {
     @LastModifiedDate
     @Column(name = "update_modified_at", insertable = false)
     private LocalDateTime updatedAt;
+    @Column(name = "delete_at")
+    private Integer deleteAt = 0;
 
 }

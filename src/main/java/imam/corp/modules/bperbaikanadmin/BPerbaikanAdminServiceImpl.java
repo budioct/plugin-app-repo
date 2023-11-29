@@ -33,16 +33,20 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
 
     @Transactional(readOnly = true)
     public Page<DTO.respBPerbaikanAdmin> fetch(Map<String, Object> filter) {
-        Models<BPerbaikanAdmin> models = new Models<>();
-        Page<BPerbaikanAdmin> bpAdminPage = repository.findAll(models.where(filter), models.pageableSort(filter));
+        Models<BPerbaikanAdminEntity> models = new Models<>();
+        Page<BPerbaikanAdminEntity> bpAdminPage = repository.findAll(models.where(filter), models.pageableSort(filter));
         List<DTO.respBPerbaikanAdmin> respBPerbaikanAdmins = bpAdminPage.getContent().stream().map(DTO::toRespBPerbaikanAdmin).toList();
+
+        if (respBPerbaikanAdmins.size() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan admin not found!");
+        }
 
         return new PageImpl<>(respBPerbaikanAdmins, bpAdminPage.getPageable(), bpAdminPage.getTotalElements());
     }
 
     @Transactional(readOnly = true)
     public DTO.respBPerbaikanAdmin detail(Long id) {
-        BPerbaikanAdmin barang = repository.findFirstById(id)
+        BPerbaikanAdminEntity barang = repository.findFirstById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
         return DTO.toRespBPerbaikanAdmin(barang);
@@ -51,7 +55,7 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     @Transactional
     public DTO.respBPerbaikanAdmin create(DTO.reqstBPerbaikanAdmin request) {
         validation.validate(request);
-        BPerbaikanAdmin bpAdmin = new BPerbaikanAdmin();
+        BPerbaikanAdminEntity bpAdmin = new BPerbaikanAdminEntity();
         bpAdmin.setNo(generateNo.bPAdminNO());
         bpAdmin.setNamaBarang(request.getNamaBarang());
         bpAdmin.setTanggal(LocalDateTime.now());
@@ -67,7 +71,7 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
 
     @Transactional
     public DTO.respBPerbaikanAdmin update(DTO.reqstUpdateBPerbaikanAdmin request) {
-        BPerbaikanAdmin bpAdmin = repository.findFirstById(request.getId())
+        BPerbaikanAdminEntity bpAdmin = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
         mapper.requestBarangPerbaikanAdminToEntity(request, bpAdmin);
         repository.save(bpAdmin);
@@ -77,9 +81,10 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
 
     @Transactional
     public void remove(Long id) {
-        BPerbaikanAdmin pbAdmin = repository.findFirstById(id)
+        BPerbaikanAdminEntity pbAdmin = repository.findFirstById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
-        repository.delete(pbAdmin);
+        //repository.delete(pbAdmin);
+        repository.deleteById(pbAdmin.getId());
     }
 }

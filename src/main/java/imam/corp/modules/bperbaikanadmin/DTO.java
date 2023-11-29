@@ -70,7 +70,7 @@ public class DTO {
         private String kapal;
     }
 
-    public static respBPerbaikanAdmin toRespBPerbaikanAdmin(BPerbaikanAdmin entity) {
+    public static respBPerbaikanAdmin toRespBPerbaikanAdmin(BPerbaikanAdminEntity entity) {
         return respBPerbaikanAdmin.builder()
                 .id(entity.getId())
                 .no(entity.getNo())

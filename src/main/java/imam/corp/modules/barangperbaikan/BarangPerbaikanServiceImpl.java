@@ -37,6 +37,10 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
         Page<BarangPerbaikanEntity> barangPage = repository.findAll(models.where(filter), models.pageableSort(filter));
         List<DTO.respBarangPerbaikan> respBarangBarangPerbaikan = barangPage.getContent().stream().map(DTO::toRespBarangPerbaikan).toList();
 
+        if (respBarangBarangPerbaikan.size() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!");
+        }
+
         return new PageImpl<>(respBarangBarangPerbaikan, barangPage.getPageable(), barangPage.getTotalElements());
     }
 
@@ -78,6 +82,7 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
         BarangPerbaikanEntity barang = repository.findFirstById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
-        repository.delete(barang);
+        //repository.delete(barang);
+        repository.deleteById(barang.getId());
     }
 }

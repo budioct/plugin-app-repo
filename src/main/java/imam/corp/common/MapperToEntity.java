@@ -2,7 +2,7 @@ package imam.corp.common;
 
 import imam.corp.modules.barangperbaikan.BarangPerbaikanEntity;
 import imam.corp.modules.barangterimas.BarangTerimaEntity;
-import imam.corp.modules.bperbaikanadmin.BPerbaikanAdmin;
+import imam.corp.modules.bperbaikanadmin.BPerbaikanAdminEntity;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
@@ -15,6 +15,6 @@ public interface MapperToEntity {
     void requestBarangPerbaikanToEntity(imam.corp.modules.barangperbaikan.DTO.reqstUpdtBarangPerbaikan request, @MappingTarget BarangPerbaikanEntity entity);
 
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void requestBarangPerbaikanAdminToEntity(imam.corp.modules.bperbaikanadmin.DTO.reqstUpdateBPerbaikanAdmin request, @MappingTarget BPerbaikanAdmin entity);
+    void requestBarangPerbaikanAdminToEntity(imam.corp.modules.bperbaikanadmin.DTO.reqstUpdateBPerbaikanAdmin request, @MappingTarget BPerbaikanAdminEntity entity);
 
 }

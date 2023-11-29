@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface BPerbaikanAdminRepository extends JpaRepository<BPerbaikanAdmin, Long>, JpaSpecificationExecutor<BPerbaikanAdmin> {
+public interface BPerbaikanAdminRepository extends JpaRepository<BPerbaikanAdminEntity, Long>, JpaSpecificationExecutor<BPerbaikanAdminEntity> {
 
-    Optional<BPerbaikanAdmin> findFirstById(Long id);
+    Optional<BPerbaikanAdminEntity> findFirstById(Long id);
 
     @Query(value = "SELECT IFNULL(MAX(CONVERT(no, SIGNED INTEGER)), 0) AS kode FROM barang_perbaikan_admins", nativeQuery = true)
     Long generateNoBPAdmin();

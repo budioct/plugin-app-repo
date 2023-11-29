@@ -22,7 +22,7 @@ public class AutoGenerateNo {
 
     public long bTerimaNO() {
         long banyakData = barangTerimaRepository.generateNoBTerima();
-        log.info("no: {}", banyakData);
+//        log.info("no: {}", banyakData);
         long nomorBerikutnya = banyakData + 1;
         long urutan = 0;
         if (banyakData == 0) {
@@ -36,7 +36,7 @@ public class AutoGenerateNo {
 
     public long bPerbaikanNO() {
         long banyakData = barangPerbaikanRepository.generateNoBPerbaikan();
-        log.info("no: {}", banyakData);
+//        log.info("no: {}", banyakData);
         long nomorBerikutnya = banyakData + 1;
         long urutan = 0;
         if (banyakData == 0) {
@@ -50,7 +50,7 @@ public class AutoGenerateNo {
 
     public long bPAdminNO() {
         long banyakData = bPerbaikanAdminRepository.generateNoBPAdmin();
-        log.info("no: {}", banyakData);
+//        log.info("no: {}", banyakData);
         long nomorBerikutnya = banyakData + 1;
         long urutan = 0;
         if (banyakData == 0) {

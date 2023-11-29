@@ -15,7 +15,8 @@ public class RestException {
     public ResponseEntity<RestResponse.restError<String>> constraintViolationException(ConstraintViolationException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(RestResponse.restError.<String>builder()
-                        .errors(Constants.BAD_REQUEST_MESSAGE)
+//                        .errors(Constants.BAD_REQUEST_MESSAGE)
+                        .errors(exception.getMessage())
                         .status_code(Constants.BAD_REQUEST)
                         .message(Constants.VALIDATION_MESSAGE)
                         .build());

@@ -3,7 +3,7 @@ package imam.corp;
 import imam.corp.modules.barangterimas.BarangTerimaEntity;
 import imam.corp.modules.barangterimas.BarangTerimaRepository;
 import imam.corp.modules.barangperbaikan.BarangPerbaikanRepository;
-import imam.corp.modules.bperbaikanadmin.BPerbaikanAdmin;
+import imam.corp.modules.bperbaikanadmin.BPerbaikanAdminEntity;
 import imam.corp.modules.bperbaikanadmin.BPerbaikanAdminRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -61,7 +61,7 @@ public class ORMTests {
     @Test
     void testBPerbaikanAdmin() {
 
-        BPerbaikanAdmin bpadmin = new BPerbaikanAdmin();
+        BPerbaikanAdminEntity bpadmin = new BPerbaikanAdminEntity();
         bpadmin.setNo(111L);
         bpadmin.setNamaBarang("nama barang");
         bpadmin.setTanggal(LocalDateTime.now());

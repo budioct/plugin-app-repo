@@ -8,8 +8,8 @@ public interface BarangTerimaService {
 
     Page<DTO.respBarangTerima> fetchAll(Map<String, Object> filter);
     DTO.respBarangTerima create(DTO.reqstBarangTerima request);
-    DTO.respBarangTerima detail(Long id);
+    DTO.respBarangTerima detail(DTO.reqstDetailBarangTerima request);
     DTO.respBarangTerima update(DTO.reqstUpdtBarangTerima request);
-    void delete(Long id);
+    void delete(DTO.reqstDetailBarangTerima request);
 
 }

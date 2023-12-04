@@ -1,7 +1,9 @@
 package imam.corp.modules.barangterimas;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import imam.corp.config.converter.StringToDateConverter;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +18,7 @@ public class DTO {
     public static class respBarangTerima {
         private Long id;
         private Long no;
-        private LocalDateTime tanggal;
+        private String tanggal;
         private String noNPP;
         private String namaBarang;
         private String keterangan;
@@ -33,7 +35,8 @@ public class DTO {
     @Builder
     public static class reqstBarangTerima {
         private Long no;
-        private LocalDateTime tanggal;
+        @NotBlank
+        private String tanggal;
         @NotBlank
         private String noNPP;
         @NotBlank
@@ -41,6 +44,20 @@ public class DTO {
         private String keterangan;
         @NotBlank
         private String kapal;
+        @NotBlank
+        private String key;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class reqstDetailBarangTerima {
+        @NotNull
+        private Long id;
+        @NotBlank
+        private String key;
     }
 
     @Getter
@@ -49,7 +66,7 @@ public class DTO {
     @AllArgsConstructor
     @Builder
     public static class reqstUpdtBarangTerima {
-        @JsonIgnore
+        @NotNull
         private Long id;
         private Long no;
         private LocalDateTime tanggal;
@@ -57,13 +74,15 @@ public class DTO {
         private String namaBarang;
         private String keterangan;
         private String kapal;
+        @NotBlank
+        private String key;
     }
 
-    public static respBarangTerima toRespBarangTerima(BarangTerimaEntity entity){
+    public static respBarangTerima toRespBarangTerima(BarangTerimaEntity entity) {
         return respBarangTerima.builder()
                 .id(entity.getId())
                 .no(entity.getNo())
-                .tanggal(entity.getTanggal())
+                .tanggal(StringToDateConverter.convert(entity.getTanggal()))
                 .noNPP(entity.getNoNPP())
                 .namaBarang(entity.getNamaBarang())
                 .keterangan(entity.getKeterangan())

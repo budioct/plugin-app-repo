@@ -19,6 +19,7 @@ public class Models<T> {
         filter.remove("page");
         filter.remove("size");
         filter.remove("sort");
+        filter.remove("key");
         return new Specification<>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

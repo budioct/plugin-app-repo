@@ -19,11 +19,11 @@ public class BarangTerimaRest {
     @Autowired
     private BarangTerimaService service;
 
-    @GetMapping(
+    @PostMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.list<List<DTO.respBarangTerima>> fetchAll(@RequestParam Map<String, Object> filter) {
+    public RestResponse.list<List<DTO.respBarangTerima>> fetchAll(@RequestBody Map<String, Object> filter) {
 
         Page<DTO.respBarangTerima> respBarangTerimas = service.fetchAll(filter);
 
@@ -40,13 +40,13 @@ public class BarangTerimaRest {
 
     }
 
-    @GetMapping(
-            path = "/detail/{id}",
+    @PostMapping(
+            path = "/detail",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<DTO.respBarangTerima> detail(@PathVariable(name = "id") Long id) {
+    public RestResponse.object<DTO.respBarangTerima> detail(@RequestBody DTO.reqstDetailBarangTerima request) {
 
-        DTO.respBarangTerima respBarangTerima = service.detail(id);
+        DTO.respBarangTerima respBarangTerima = service.detail(request);
 
         return RestResponse.object.<DTO.respBarangTerima>builder()
                 .data(respBarangTerima)
@@ -73,15 +73,13 @@ public class BarangTerimaRest {
 
     }
 
-    @PutMapping(
-            path = "/update/{id}",
+    @PostMapping(
+            path = "/update",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<DTO.respBarangTerima> update(@PathVariable(name = "id") Long id,
-                                                            @RequestBody DTO.reqstUpdtBarangTerima request) {
+    public RestResponse.object<DTO.respBarangTerima> update(@RequestBody DTO.reqstUpdtBarangTerima request) {
 
-        request.setId(id);
         DTO.respBarangTerima respBarangTerima = service.update(request);
 
         return RestResponse.object.<DTO.respBarangTerima>builder()
@@ -92,13 +90,13 @@ public class BarangTerimaRest {
 
     }
 
-    @DeleteMapping(
-            path = "/remove/{id}",
+    @PostMapping(
+            path = "/remove",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<String> delete(@PathVariable(name = "id") Long id) {
+    public RestResponse.object<String> delete(@RequestBody DTO.reqstDetailBarangTerima request) {
 
-        service.delete(id);
+        service.delete(request);
 
         return RestResponse.object.<String>builder()
                 .data("")

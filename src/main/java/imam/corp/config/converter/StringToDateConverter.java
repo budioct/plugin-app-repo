@@ -1,0 +1,68 @@
+package imam.corp.config.converter;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
+
+@Slf4j
+@Component
+public class StringToDateConverter implements Converter<String, LocalDate> {
+
+    private HandlerExceptionResolver exceptionResolver;
+
+    private final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ROOT); // use package java.time
+    private static final DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ROOT);
+
+    static LocalDate localDate;
+    static String text;
+
+    @Override
+    public LocalDate convert(String source) {
+
+//         side server and client
+//        try {
+//            localDate = LocalDate.parse(source, formatter1);
+//            log.info("{}", localDate);
+//            return localDate;
+//        } catch (DateTimeParseException e) {
+//            log.warn("Error convert data from string {}", source, e);
+//            throw new DateTimeParseException("format is dd-MM-yyyy asek asek jos", e.getParsedString(), e.getErrorIndex());
+//        }
+
+//        side client
+        localDate = LocalDate.parse(source, formatter1);
+        if (localDate == null) {
+            log.warn("Error convert data from string {}", source, formatter1);
+            throw new DateTimeParseException("format is dd-MM-yyyy", null, formatter1.hashCode());
+        }
+//        log.info("{}", localDate);
+        return localDate;
+
+    }
+
+    public static String convert(LocalDateTime source) {
+
+        try {
+
+            localDate = source.toLocalDate();
+            text = localDate.format(formatter2);
+//            log.info("{}", text);
+            return text;
+
+        } catch (Exception e) {
+            log.warn("Error convert data from string {}", source, e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "format is dd/MM/yyyy");
+        }
+
+    }
+
+}

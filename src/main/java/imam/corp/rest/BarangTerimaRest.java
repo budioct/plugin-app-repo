@@ -23,7 +23,7 @@ public class BarangTerimaRest {
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.list<List<DTO.respBarangTerima>> fetchAll(@RequestBody Map<String, Object> filter) {
+    public RestResponse.list<List<DTO.respBarangTerima>> fetchAll(@RequestParam Map<String, Object> filter) {
 
         Page<DTO.respBarangTerima> respBarangTerimas = service.fetchAll(filter);
 

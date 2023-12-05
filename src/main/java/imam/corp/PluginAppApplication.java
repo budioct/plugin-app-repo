@@ -39,7 +39,7 @@ public class PluginAppApplication {
                     .namaBarang("torpedo")
                     .keterangan("berlabuh di perairan cirebon")
                     .kapal("KNP sinar mas 403")
-                    .key("b{WV92TI-1DdKN<+B<pV*1D*^A_gi>|?o{C`aP7i4].?Y_4-w<Dy@5%4)]gJdi")
+                    .key("SCPlimVbAry1rbrSV")
                     .build();
             System.out.println("ADD SERAH TERIMA BARANG " + barangTerimaService.create(barangTerima));
 
@@ -50,7 +50,7 @@ public class PluginAppApplication {
                     .namaBarang("meriam")
                     .keterangan("berlabuh di perairan jakarta")
                     .kapal("KNP sinar mas 402")
-                    .key("b{WV92TI-1DdKN<+B<pV*1D*^A_gi>|?o{C`aP7i4].?Y_4-w<Dy@5%4)]gJdi")
+                    .key("SCPlimVbAry1rbrSV")
                     .build();
             System.out.println("ADD BARANG PERBAIKAN " + barangPerbaikanService.create(barangPerbaikan));
 
@@ -63,7 +63,7 @@ public class PluginAppApplication {
                     .isPrimary(false)
                     .posisiBarang("di luar kapal")
                     .kapal("KNP sinar mas 401")
-                    .key("b{WV92TI-1DdKN<+B<pV*1D*^A_gi>|?o{C`aP7i4].?Y_4-w<Dy@5%4)]gJdi")
+                    .key("SCPlimVbAry1rbrSV")
                     .build();
             System.out.println("ADD BARANG PERBAIKAN " + barangPerbaikanAdminService.create(barangPerbaikanAdmin));
 

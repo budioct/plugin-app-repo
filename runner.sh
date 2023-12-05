@@ -1,3 +1,3 @@
 #!/bin/bash
 
-java -jar plugin-app/target/springboot-mysql-docker.jar
+java -jar /home/budi/plugin-app-repo/target/springboot-mysql-docker.jar

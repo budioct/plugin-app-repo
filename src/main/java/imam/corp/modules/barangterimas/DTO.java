@@ -69,7 +69,7 @@ public class DTO {
         @NotNull
         private Long id;
         private Long no;
-        private LocalDateTime tanggal;
+        private String tanggal;
         private String noNPP;
         private String namaBarang;
         private String keterangan;

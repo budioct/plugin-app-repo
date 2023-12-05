@@ -8,12 +8,12 @@ public interface BarangPerbaikanService {
 
     Page<DTO.respBarangPerbaikan> fetch(Map<String, Object> filter);
 
-    DTO.respBarangPerbaikan detail(Long id);
+    DTO.respBarangPerbaikan detail(DTO.reqstDetailBarangPerbaikan request);
 
     DTO.respBarangPerbaikan create(DTO.reqstBarangPerbaikan request);
 
     DTO.respBarangPerbaikan update(DTO.reqstUpdtBarangPerbaikan request);
 
-    void remove(Long id);
+    void remove(DTO.reqstDetailBarangPerbaikan request);
 
 }

@@ -19,11 +19,11 @@ public class BarangPerbaikanRest {
     @Autowired
     BarangPerbaikanService service;
 
-    @GetMapping(
+    @PostMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.list<List<DTO.respBarangPerbaikan>> fetching(@RequestParam Map<String, Object> filter) {
+    public RestResponse.list<List<DTO.respBarangPerbaikan>> fetching(@RequestBody Map<String, Object> filter) {
 
         Page<DTO.respBarangPerbaikan> respBarangPerbaikans = service.fetch(filter);
 
@@ -40,13 +40,13 @@ public class BarangPerbaikanRest {
 
     }
 
-    @GetMapping(
-            path = "detail/{id}",
+    @PostMapping(
+            path = "detail",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<DTO.respBarangPerbaikan> detail(@PathVariable(name = "id") Long id) {
+    public RestResponse.object<DTO.respBarangPerbaikan> detail(@RequestBody DTO.reqstDetailBarangPerbaikan request) {
 
-        DTO.respBarangPerbaikan respBarangPerbaikan = service.detail(id);
+        DTO.respBarangPerbaikan respBarangPerbaikan = service.detail(request);
 
         return RestResponse.object.<DTO.respBarangPerbaikan>builder()
                 .data(respBarangPerbaikan)
@@ -73,15 +73,13 @@ public class BarangPerbaikanRest {
 
     }
 
-    @PutMapping(
-            path = "/update/{id}",
+    @PostMapping(
+            path = "/update",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<DTO.respBarangPerbaikan> update(@PathVariable(name = "id") Long id,
-                                                               @RequestBody DTO.reqstUpdtBarangPerbaikan request) {
+    public RestResponse.object<DTO.respBarangPerbaikan> update(@RequestBody DTO.reqstUpdtBarangPerbaikan request) {
 
-        request.setId(id);
         DTO.respBarangPerbaikan respBarangPerbaikan = service.update(request);
 
         return RestResponse.object.<DTO.respBarangPerbaikan>builder()
@@ -92,13 +90,13 @@ public class BarangPerbaikanRest {
 
     }
 
-    @DeleteMapping(
-            path = "/remove/{id}",
+    @PostMapping(
+            path = "/remove",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<String> remove(@PathVariable(name = "id") Long id) {
+    public RestResponse.object<String> remove(@RequestBody DTO.reqstDetailBarangPerbaikan request) {
 
-        service.remove(id);
+        service.remove(request);
 
         return RestResponse.object.<String>builder()
                 .data("")

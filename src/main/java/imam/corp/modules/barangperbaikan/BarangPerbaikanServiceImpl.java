@@ -2,8 +2,10 @@ package imam.corp.modules.barangperbaikan;
 
 import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
+import imam.corp.config.converter.StringToDateConverter;
 import imam.corp.config.validation.ValidationService;
 import imam.corp.utilities.AutoGenerateNo;
+import imam.corp.utilities.SecuritySecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,8 +33,24 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
     @Autowired
     AutoGenerateNo generateNo;
 
+    @Autowired
+    SecuritySecretKey secret;
+
+    @Autowired
+    StringToDateConverter converter;
+
     @Transactional(readOnly = true)
     public Page<DTO.respBarangPerbaikan> fetch(Map<String, Object> filter) {
+        if (!(filter.containsKey("key"))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "keyword: key on body request not found!!");
+        }
+        if (!(filter.get("key") != "")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "key: must not be blank");
+        }
+        if (!(filter.get("key").equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
         Models<BarangPerbaikanEntity> models = new Models<>();
         Page<BarangPerbaikanEntity> barangPage = repository.findAll(models.where(filter), models.pageableSort(filter));
         List<DTO.respBarangPerbaikan> respBarangBarangPerbaikan = barangPage.getContent().stream().map(DTO::toRespBarangPerbaikan).toList();
@@ -45,8 +63,14 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
     }
 
     @Transactional(readOnly = true)
-    public DTO.respBarangPerbaikan detail(Long id) {
-        BarangPerbaikanEntity barang = repository.findFirstById(id)
+    public DTO.respBarangPerbaikan detail(DTO.reqstDetailBarangPerbaikan request) {
+        validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
+        BarangPerbaikanEntity barang = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
         return DTO.toRespBarangPerbaikan(barang);
@@ -55,9 +79,14 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
     @Transactional
     public DTO.respBarangPerbaikan create(DTO.reqstBarangPerbaikan request) {
         validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
         BarangPerbaikanEntity barang = new BarangPerbaikanEntity();
         barang.setNo(generateNo.bPerbaikanNO());
-        barang.setTanggal(LocalDateTime.now());
+        barang.setTanggal(LocalDateTime.of(converter.convert(request.getTanggal()), LocalDateTime.now().toLocalTime()));
         barang.setNoNPK(request.getNoNPK());
         barang.setNamaBarang(request.getNamaBarang());
         barang.setKeterangan(request.getKeterangan());
@@ -69,6 +98,12 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
 
     @Transactional
     public DTO.respBarangPerbaikan update(DTO.reqstUpdtBarangPerbaikan request) {
+        validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
         BarangPerbaikanEntity barang = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
         mapper.requestBarangPerbaikanToEntity(request, barang);
@@ -78,8 +113,14 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
     }
 
     @Transactional
-    public void remove(Long id) {
-        BarangPerbaikanEntity barang = repository.findFirstById(id)
+    public void remove(DTO.reqstDetailBarangPerbaikan request) {
+        validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
+        BarangPerbaikanEntity barang = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
         //repository.delete(barang);

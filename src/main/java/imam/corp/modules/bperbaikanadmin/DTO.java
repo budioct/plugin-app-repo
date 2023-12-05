@@ -1,7 +1,9 @@
 package imam.corp.modules.bperbaikanadmin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import imam.corp.config.converter.StringToDateConverter;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +19,7 @@ public class DTO {
         private Long id;
         private Long no;
         private String namaBarang;
-        private LocalDateTime tanggal;
+        private String tanggal;
         private String bengkelToko;
         private Boolean isPrimary;
         private String posisiBarang;
@@ -33,11 +35,11 @@ public class DTO {
     @NoArgsConstructor
     @Builder
     public static class reqstBPerbaikanAdmin {
-        private Long id;
         private Long no;
         @NotBlank
         private String namaBarang;
-        private LocalDateTime tanggal;
+        @NotBlank
+        private String tanggal;
         @NotBlank
         private String bengkelToko;
         private Boolean isPrimary;
@@ -46,6 +48,20 @@ public class DTO {
         private String keterangan;
         @NotBlank
         private String kapal;
+        @NotBlank
+        private String key;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class reqstDetailBPerbaikanAdmin {
+        @NotNull
+        private Long id;
+        @NotBlank
+        private String key;
     }
 
     @Getter
@@ -54,20 +70,18 @@ public class DTO {
     @NoArgsConstructor
     @Builder
     public static class reqstUpdateBPerbaikanAdmin {
-        @JsonIgnore
+        @NotNull
         private Long id;
         private Long no;
-        @NotBlank
         private String namaBarang;
-        private LocalDateTime tanggal;
-        @NotBlank
+        private String tanggal;
         private String bengkelToko;
         private Boolean isPrimary;
-        @NotBlank
         private String posisiBarang;
         private String keterangan;
-        @NotBlank
         private String kapal;
+        @NotBlank
+        private String key;
     }
 
     public static respBPerbaikanAdmin toRespBPerbaikanAdmin(BPerbaikanAdminEntity entity) {
@@ -75,7 +89,7 @@ public class DTO {
                 .id(entity.getId())
                 .no(entity.getNo())
                 .namaBarang(entity.getNamaBarang())
-                .tanggal(entity.getTanggal())
+                .tanggal(StringToDateConverter.convert(entity.getTanggal()))
                 .bengkelToko(entity.getBengkelToko())
                 .isPrimary(entity.getIsPrimary())
                 .posisiBarang(entity.getPosisiBarang())

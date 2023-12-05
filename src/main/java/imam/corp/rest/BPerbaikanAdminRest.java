@@ -7,15 +7,11 @@ import imam.corp.utilities.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -25,11 +21,11 @@ public class BPerbaikanAdminRest {
     @Autowired
     BPerbaikanAdminService service;
 
-    @GetMapping(
+    @PostMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.list<List<DTO.respBPerbaikanAdmin>> fetching(@RequestParam Map<String, Object> filter) {
+    public RestResponse.list<List<DTO.respBPerbaikanAdmin>> fetching(@RequestBody Map<String, Object> filter) {
 
         Page<DTO.respBPerbaikanAdmin> respBPerbaikanAdmins = service.fetch(filter);
 
@@ -46,13 +42,13 @@ public class BPerbaikanAdminRest {
 
     }
 
-    @GetMapping(
-            path = "detail/{id}",
+    @PostMapping(
+            path = "detail",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<DTO.respBPerbaikanAdmin> detail(@PathVariable(name = "id") Long id) {
+    public RestResponse.object<DTO.respBPerbaikanAdmin> detail(@RequestBody DTO.reqstDetailBPerbaikanAdmin request) {
 
-        DTO.respBPerbaikanAdmin respBPerbaikanAdmin = service.detail(id);
+        DTO.respBPerbaikanAdmin respBPerbaikanAdmin = service.detail(request);
 
         return RestResponse.object.<DTO.respBPerbaikanAdmin>builder()
                 .data(respBPerbaikanAdmin)
@@ -79,15 +75,13 @@ public class BPerbaikanAdminRest {
 
     }
 
-    @PutMapping(
-            path = "/update/{id}",
+    @PostMapping(
+            path = "/update",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<DTO.respBPerbaikanAdmin> create(@PathVariable(name = "id") Long id,
-                                                               @RequestBody DTO.reqstUpdateBPerbaikanAdmin request) {
+    public RestResponse.object<DTO.respBPerbaikanAdmin> create(@RequestBody DTO.reqstUpdateBPerbaikanAdmin request) {
 
-        request.setId(id);
         DTO.respBPerbaikanAdmin respBPerbaikanAdmin = service.update(request);
 
         return RestResponse.object.<DTO.respBPerbaikanAdmin>builder()
@@ -98,13 +92,13 @@ public class BPerbaikanAdminRest {
 
     }
 
-    @DeleteMapping(
-            path = "remove/{id}",
+    @PostMapping(
+            path = "remove",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<String> remove(@PathVariable(name = "id") Long id) {
+    public RestResponse.object<String> remove(@RequestBody DTO.reqstDetailBPerbaikanAdmin request) {
 
-        service.remove(id);
+        service.remove(request);
 
         return RestResponse.object.<String>builder()
                 .data("")

@@ -2,8 +2,10 @@ package imam.corp.modules.bperbaikanadmin;
 
 import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
+import imam.corp.config.converter.StringToDateConverter;
 import imam.corp.config.validation.ValidationService;
 import imam.corp.utilities.AutoGenerateNo;
+import imam.corp.utilities.SecuritySecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,8 +33,24 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     @Autowired
     AutoGenerateNo generateNo;
 
+    @Autowired
+    SecuritySecretKey secret;
+
+    @Autowired
+    StringToDateConverter converter;
+
     @Transactional(readOnly = true)
     public Page<DTO.respBPerbaikanAdmin> fetch(Map<String, Object> filter) {
+        if (!(filter.containsKey("key"))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "keyword: key on body request not found!!");
+        }
+        if (!(filter.get("key") != "")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "key: must not be blank");
+        }
+        if (!(filter.get("key").equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
         Models<BPerbaikanAdminEntity> models = new Models<>();
         Page<BPerbaikanAdminEntity> bpAdminPage = repository.findAll(models.where(filter), models.pageableSort(filter));
         List<DTO.respBPerbaikanAdmin> respBPerbaikanAdmins = bpAdminPage.getContent().stream().map(DTO::toRespBPerbaikanAdmin).toList();
@@ -45,8 +63,14 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     }
 
     @Transactional(readOnly = true)
-    public DTO.respBPerbaikanAdmin detail(Long id) {
-        BPerbaikanAdminEntity barang = repository.findFirstById(id)
+    public DTO.respBPerbaikanAdmin detail(DTO.reqstDetailBPerbaikanAdmin request) {
+        validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
+        BPerbaikanAdminEntity barang = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
         return DTO.toRespBPerbaikanAdmin(barang);
@@ -55,10 +79,15 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     @Transactional
     public DTO.respBPerbaikanAdmin create(DTO.reqstBPerbaikanAdmin request) {
         validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
         BPerbaikanAdminEntity bpAdmin = new BPerbaikanAdminEntity();
         bpAdmin.setNo(generateNo.bPAdminNO());
         bpAdmin.setNamaBarang(request.getNamaBarang());
-        bpAdmin.setTanggal(LocalDateTime.now());
+        bpAdmin.setTanggal(LocalDateTime.of(converter.convert(request.getTanggal()), LocalDateTime.now().toLocalTime()));
         bpAdmin.setBengkelToko(request.getBengkelToko());
         bpAdmin.setIsPrimary(request.getIsPrimary());
         bpAdmin.setPosisiBarang(request.getPosisiBarang());
@@ -71,6 +100,12 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
 
     @Transactional
     public DTO.respBPerbaikanAdmin update(DTO.reqstUpdateBPerbaikanAdmin request) {
+        validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
         BPerbaikanAdminEntity bpAdmin = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
         mapper.requestBarangPerbaikanAdminToEntity(request, bpAdmin);
@@ -80,8 +115,14 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
     }
 
     @Transactional
-    public void remove(Long id) {
-        BPerbaikanAdminEntity pbAdmin = repository.findFirstById(id)
+    public void remove(DTO.reqstDetailBPerbaikanAdmin request) {
+        validation.validate(request);
+
+        if (!(request.getKey().equals(secret.secretKey()))) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Key invalid!!!");
+        }
+
+        BPerbaikanAdminEntity pbAdmin = repository.findFirstById(request.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "barang perbaikan not found!"));
 
         //repository.delete(pbAdmin);

@@ -34,38 +34,40 @@ public class PluginAppApplication {
         return args -> {
             DTO.reqstBarangTerima barangTerima = DTO.reqstBarangTerima.builder()
                     .no(generateNo.bTerimaNO())
-                    .tanggal(LocalDateTime.now())
+                    .tanggal("05-12-2023")
                     .noNPP("1111-2222-3333")
                     .namaBarang("torpedo")
                     .keterangan("berlabuh di perairan cirebon")
                     .kapal("KNP sinar mas 403")
+                    .key("b{WV92TI-1DdKN<+B<pV*1D*^A_gi>|?o{C`aP7i4].?Y_4-w<Dy@5%4)]gJdi")
                     .build();
             System.out.println("ADD SERAH TERIMA BARANG " + barangTerimaService.create(barangTerima));
 
             imam.corp.modules.barangperbaikan.DTO.reqstBarangPerbaikan barangPerbaikan = imam.corp.modules.barangperbaikan.DTO.reqstBarangPerbaikan.builder()
                     .no(generateNo.bPerbaikanNO())
-                    .tanggal(LocalDateTime.now())
+                    .tanggal("05-12-2023")
                     .noNPK("4444-5555-6666")
                     .namaBarang("meriam")
                     .keterangan("berlabuh di perairan jakarta")
                     .kapal("KNP sinar mas 402")
+                    .key("b{WV92TI-1DdKN<+B<pV*1D*^A_gi>|?o{C`aP7i4].?Y_4-w<Dy@5%4)]gJdi")
                     .build();
             System.out.println("ADD BARANG PERBAIKAN " + barangPerbaikanService.create(barangPerbaikan));
 
             imam.corp.modules.bperbaikanadmin.DTO.reqstBPerbaikanAdmin barangPerbaikanAdmin = imam.corp.modules.bperbaikanadmin.DTO.reqstBPerbaikanAdmin.builder()
                     .no(generateNo.bPAdminNO())
-                    .tanggal(LocalDateTime.now())
+                    .tanggal("05-12-2023")
                     .bengkelToko("Bengkel Las Sejahtra")
                     .namaBarang("Piston")
                     .keterangan("berlabuh di perairan jakarta, dan sedang perbaikan")
                     .isPrimary(false)
                     .posisiBarang("di luar kapal")
                     .kapal("KNP sinar mas 401")
+                    .key("b{WV92TI-1DdKN<+B<pV*1D*^A_gi>|?o{C`aP7i4].?Y_4-w<Dy@5%4)]gJdi")
                     .build();
             System.out.println("ADD BARANG PERBAIKAN " + barangPerbaikanAdminService.create(barangPerbaikanAdmin));
 
         };
-
     }
 
 }

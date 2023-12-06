@@ -4,7 +4,6 @@ import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
 import imam.corp.config.converter.StringToDateConverter;
 import imam.corp.config.validation.ValidationService;
-import imam.corp.utilities.AutoGenerateNo;
 import imam.corp.utilities.SecuritySecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,9 +28,6 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
 
     @Autowired
     MapperToEntity mapper;
-
-    @Autowired
-    AutoGenerateNo generateNo;
 
     @Autowired
     SecuritySecretKey secret;
@@ -85,7 +81,6 @@ public class BPerbaikanAdminServiceImpl implements BPerbaikanAdminService{
         }
 
         BPerbaikanAdminEntity bpAdmin = new BPerbaikanAdminEntity();
-        bpAdmin.setNo(generateNo.bPAdminNO());
         bpAdmin.setNamaBarang(request.getNamaBarang());
         bpAdmin.setTanggal(LocalDateTime.of(converter.convert(request.getTanggal()), LocalDateTime.now().toLocalTime()));
         bpAdmin.setBengkelToko(request.getBengkelToko());

@@ -10,7 +10,4 @@ public interface BPerbaikanAdminRepository extends JpaRepository<BPerbaikanAdmin
 
     Optional<BPerbaikanAdminEntity> findFirstById(Long id);
 
-    @Query(value = "SELECT IFNULL(MAX(CONVERT(no, SIGNED INTEGER)), 0) AS kode FROM barang_perbaikan_admins", nativeQuery = true)
-    Long generateNoBPAdmin();
-
 }

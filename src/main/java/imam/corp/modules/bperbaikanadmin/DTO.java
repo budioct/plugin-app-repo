@@ -17,7 +17,6 @@ public class DTO {
     @Builder
     public static class respBPerbaikanAdmin {
         private Long id;
-        private Long no;
         private String namaBarang;
         private String tanggal;
         private String bengkelToko;
@@ -35,7 +34,6 @@ public class DTO {
     @NoArgsConstructor
     @Builder
     public static class reqstBPerbaikanAdmin {
-        private Long no;
         @NotBlank
         private String namaBarang;
         @NotBlank
@@ -72,7 +70,6 @@ public class DTO {
     public static class reqstUpdateBPerbaikanAdmin {
         @NotNull
         private Long id;
-        private Long no;
         private String namaBarang;
         private String tanggal;
         private String bengkelToko;
@@ -87,7 +84,6 @@ public class DTO {
     public static respBPerbaikanAdmin toRespBPerbaikanAdmin(BPerbaikanAdminEntity entity) {
         return respBPerbaikanAdmin.builder()
                 .id(entity.getId())
-                .no(entity.getNo())
                 .namaBarang(entity.getNamaBarang())
                 .tanggal(StringToDateConverter.convert(entity.getTanggal()))
                 .bengkelToko(entity.getBengkelToko())

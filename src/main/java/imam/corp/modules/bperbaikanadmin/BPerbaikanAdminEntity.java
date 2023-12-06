@@ -26,8 +26,6 @@ public class BPerbaikanAdminEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "no")
-    private Long no;
     @Column(name = "nama_barang")
     private String namaBarang;
     @Column(name = "tanggal")

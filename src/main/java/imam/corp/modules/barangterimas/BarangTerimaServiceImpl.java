@@ -4,7 +4,6 @@ import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
 import imam.corp.config.converter.StringToDateConverter;
 import imam.corp.config.validation.ValidationService;
-import imam.corp.utilities.AutoGenerateNo;
 import imam.corp.utilities.SecuritySecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -33,9 +30,6 @@ public class BarangTerimaServiceImpl implements BarangTerimaService {
 
     @Autowired
     MapperToEntity mapper;
-
-    @Autowired
-    AutoGenerateNo generateNo;
 
     @Autowired
     SecuritySecretKey secret;
@@ -77,7 +71,6 @@ public class BarangTerimaServiceImpl implements BarangTerimaService {
         }
 
         BarangTerimaEntity barang = new BarangTerimaEntity();
-        barang.setNo(generateNo.bTerimaNO());
         barang.setTanggal(LocalDateTime.of(converter.convert(request.getTanggal()), LocalDateTime.now().toLocalTime()));
         barang.setNoNPP(request.getNoNPP().trim());
         barang.setNamaBarang(request.getNamaBarang().trim());

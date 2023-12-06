@@ -10,8 +10,4 @@ public interface BarangTerimaRepository extends JpaRepository<BarangTerimaEntity
 
     Optional<BarangTerimaEntity> findFirstById(Long id);
 
-    @Query(value = "SELECT IFNULL(MAX(CONVERT(no, SIGNED INTEGER)), 0) AS kode FROM barang_terimas", nativeQuery = true)
-    Long generateNoBTerima();
-
-
 }

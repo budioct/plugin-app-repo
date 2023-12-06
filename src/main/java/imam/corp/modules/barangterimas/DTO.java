@@ -17,7 +17,6 @@ public class DTO {
     @Builder
     public static class respBarangTerima {
         private Long id;
-        private Long no;
         private String tanggal;
         private String noNPP;
         private String namaBarang;
@@ -34,7 +33,6 @@ public class DTO {
     @AllArgsConstructor
     @Builder
     public static class reqstBarangTerima {
-        private Long no;
         @NotBlank
         private String tanggal;
         @NotBlank
@@ -68,7 +66,6 @@ public class DTO {
     public static class reqstUpdtBarangTerima {
         @NotNull
         private Long id;
-        private Long no;
         private String tanggal;
         private String noNPP;
         private String namaBarang;
@@ -81,7 +78,6 @@ public class DTO {
     public static respBarangTerima toRespBarangTerima(BarangTerimaEntity entity) {
         return respBarangTerima.builder()
                 .id(entity.getId())
-                .no(entity.getNo())
                 .tanggal(StringToDateConverter.convert(entity.getTanggal()))
                 .noNPP(entity.getNoNPP())
                 .namaBarang(entity.getNamaBarang())

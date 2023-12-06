@@ -5,7 +5,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,8 +15,6 @@ import java.util.Locale;
 @Slf4j
 @Component
 public class StringToDateConverter implements Converter<String, LocalDate> {
-
-    private HandlerExceptionResolver exceptionResolver;
 
     private final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ROOT); // use package java.time
     private static final DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ROOT);

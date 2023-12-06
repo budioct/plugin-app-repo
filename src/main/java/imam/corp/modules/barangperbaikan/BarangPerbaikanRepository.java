@@ -10,7 +10,4 @@ public interface BarangPerbaikanRepository extends JpaRepository<BarangPerbaikan
 
     Optional<BarangPerbaikanEntity> findFirstById(Long id);
 
-    @Query(value = "SELECT IFNULL(MAX(CONVERT(no, SIGNED INTEGER)), 0) AS kode FROM barang_perbaikans", nativeQuery = true)
-    Long generateNoBPerbaikan();
-
 }

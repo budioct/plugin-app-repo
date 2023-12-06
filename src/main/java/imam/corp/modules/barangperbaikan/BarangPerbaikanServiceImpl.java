@@ -4,7 +4,6 @@ import imam.corp.common.MapperToEntity;
 import imam.corp.common.Models;
 import imam.corp.config.converter.StringToDateConverter;
 import imam.corp.config.validation.ValidationService;
-import imam.corp.utilities.AutoGenerateNo;
 import imam.corp.utilities.SecuritySecretKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,9 +28,6 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
 
     @Autowired
     MapperToEntity mapper;
-
-    @Autowired
-    AutoGenerateNo generateNo;
 
     @Autowired
     SecuritySecretKey secret;
@@ -85,7 +81,6 @@ public class BarangPerbaikanServiceImpl implements BarangPerbaikanService {
         }
 
         BarangPerbaikanEntity barang = new BarangPerbaikanEntity();
-        barang.setNo(generateNo.bPerbaikanNO());
         barang.setTanggal(LocalDateTime.of(converter.convert(request.getTanggal()), LocalDateTime.now().toLocalTime()));
         barang.setNoNPK(request.getNoNPK());
         barang.setNamaBarang(request.getNamaBarang());

@@ -26,8 +26,6 @@ public class BarangPerbaikanEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "no")
-    private Long no;
     @Column(name = "tanggal")
     private LocalDateTime tanggal;
     @Column(name = "no_npk")

@@ -37,7 +37,6 @@ public class BarangTerimaServiceImpl implements BarangTerimaService {
     @Autowired
     StringToDateConverter converter;
 
-    // done
     @Transactional(readOnly = true)
     public Page<DTO.respBarangTerima> fetchAll(Map<String, Object> filter) {
         if (!(filter.containsKey("key"))) {
@@ -61,7 +60,6 @@ public class BarangTerimaServiceImpl implements BarangTerimaService {
         return new PageImpl<>(respBarangTerimas, barangPage.getPageable(), barangPage.getTotalElements());
     }
 
-    // done
     @Transactional
     public DTO.respBarangTerima create(DTO.reqstBarangTerima request) {
         validation.validate(request);

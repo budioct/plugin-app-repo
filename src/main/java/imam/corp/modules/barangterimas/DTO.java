@@ -1,6 +1,5 @@
 package imam.corp.modules.barangterimas;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import imam.corp.config.converter.StringToDateConverter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

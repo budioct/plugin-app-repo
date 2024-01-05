@@ -25,23 +25,11 @@ public class StringToDateConverter implements Converter<String, LocalDate> {
     @Override
     public LocalDate convert(String source) {
 
-//         side server and client
-//        try {
-//            localDate = LocalDate.parse(source, formatter1);
-//            log.info("{}", localDate);
-//            return localDate;
-//        } catch (DateTimeParseException e) {
-//            log.warn("Error convert data from string {}", source, e);
-//            throw new DateTimeParseException("format is dd-MM-yyyy asek asek jos", e.getParsedString(), e.getErrorIndex());
-//        }
-
-//        side client
         localDate = LocalDate.parse(source, formatter1);
         if (localDate == null) {
             log.warn("Error convert data from string {}", source, formatter1);
             throw new DateTimeParseException("format is dd-MM-yyyy", null, formatter1.hashCode());
         }
-//        log.info("{}", localDate);
         return localDate;
 
     }
@@ -52,7 +40,6 @@ public class StringToDateConverter implements Converter<String, LocalDate> {
 
             localDate = source.toLocalDate();
             text = localDate.format(formatter2);
-//            log.info("{}", text);
             return text;
 
         } catch (Exception e) {

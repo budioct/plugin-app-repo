@@ -1,6 +1,5 @@
 package imam.corp.modules.barangperbaikan;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import imam.corp.config.converter.StringToDateConverter;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -87,7 +86,5 @@ public class DTO {
                 .updatedAt(entity.getUpdatedAt())
                 .build();
     }
-
-
 
 }
